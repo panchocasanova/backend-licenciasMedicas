@@ -1,0 +1,112 @@
+openapi: 3.0.3
+info:
+  title: Liquidacion Masiva
+  description: Endpoint disponibles en esta API, desarrollado por el Departamento Remuneraciones P.9
+  version: 1.0.0
+  contact:
+    name: Francisco Casanova
+    email: francisco.casanovah@carabineros.cl
+servers:
+  - url: '{protocol}://remuneraciones-dev.carabineros.cl:{port}/apiliquidacionmasiva'
+    description: Servidor local
+    variables:
+      protocol:
+        enum:
+          - http
+        default: http
+      port:
+        enum:
+          - '8081'
+        default: '8081'
+tags:
+  - name: Testing
+    description: Endpoint de prueba, ára verificar estados de otras apis
+  - name: Session
+    description: Endpoints para registro, validación y/o cierre de sesión
+paths:
+  /login:
+    post:
+      tags:
+        - Session
+      responses:
+        200:
+          description: Matriz JSON con el token y estatus.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  status:
+                    type: number
+                    example: 200
+        401:
+          description: Error en la solicitud
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+
+      summary: Retorna token de acceso.
+      description: Retorna token y estatus para el acceso al sistema. al ingresar, se debe poner rut completo sin punto, ni guion.
+      parameters:
+        - name: rut
+          in: query
+          description: Rut del funcionario sin punto, ni guion. Incluir digito verificador.
+          required: true
+          example: 12345678K
+          schema:
+            type: string
+  /bienvenidos:
+    get:
+      tags:
+        - Testing
+      responses:
+        200:
+          description: Devuelven un mensaje de bienvenida y estatus de la respuesta.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  status:
+                    type: number
+                    example: 200
+  /validar_token:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Session
+      summary: Comprueba validez del token
+      description: Al enviar el token, devuelve un **objecto** con los datos asociados al token enviados.
+      responses:
+        200:
+          description: Entre info
+          content:
+            application/json:
+              schema:
+                type: object
+
+components:
+  schemas:
+    error:
+      type: object
+      properties:
+        msg:
+          type: string
+        error:
+          type: object
+      required:
+        - msg
+        - error
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  

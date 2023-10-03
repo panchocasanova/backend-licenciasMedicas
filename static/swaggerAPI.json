@@ -1,0 +1,45 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Liquidacion Mavisa",
+    "description": "Endpoint disponibles en esta API, desarrollado por el Departamento Remuneraciones P.9",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://10.26.140.68:4001",
+      "description": "Servidor local, Francisco Casanova"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Testing",
+      "description": "Endpoint de prueba, ára verificar estados de otras apis"
+    },
+    {
+      "name": "Sesión",
+      "description": "Referencia al registro, validación y/o cierre de sesión"
+    }
+  ],
+  "paths": {
+    "/apiliquidacionmasiva/login": {
+      "post": {
+        "tags": [
+          "Sesión"
+        ],
+        "summary": "",
+        "description": "Para ingresar al sistema, es necesario generar un token. el usuario debe estar registrados en los sistemas de remuneraciones, y tener habilitado el modulo de liquidacion masiva.",
+        "responses": {
+          "200": {
+            "description": "Entrega un token encriptado",
+            "content": {
+              "application/json"
+            }
+          }
+        }
+      }
+    }
+
+
+  }
+}

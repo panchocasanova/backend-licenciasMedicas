@@ -1,0 +1,107 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Documentación de la api, para usos interno del Departamento Remuneraciones P.9",
+    "version": "1.0.0",
+    "title": "API LIQUIDACION MASIVA",
+    "contact": {
+      "name": "Francisco Casanova",
+      "email": "francisco.casanovah@carabineros.cl"
+    }
+  },
+  "tags": [
+    {
+      "name": "Tipos de solicitudes",
+      "description": "Puede ver los tipos de solicitudes y sus respuestas."
+    }
+  ],
+  "paths": {
+      "/apiliquidacionmasiva/bienvenidos": {
+        "get": {
+          "tags": [
+            "Tipos de solicitudes"
+          ],
+          "summary": "Retorna un simple mensaje de bienvenida.",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Respuesta exitosa.",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/apiliquidacionmasiva/login": {
+        "post": {
+          "tags": [
+            "Tipos de solicitudes"
+          ],
+          "summary": "Solicitud de login para generar token",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "rut",
+              "in": "query",
+              "description": "Rut del funcionario sin punto, ni guion. Incluir digito verificador.",
+              "required": true,
+              "type": "string",
+              "example": "12345678K"
+
+
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Respuesta exitosa.",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Error: UNAUTHORIZED",
+               "schema": {
+                "type": "object",
+                "properties": {
+                  "msg": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+
+            "403": {
+              "description": "Error: FORBIDDEN",
+               "schema": {
+                "type": "object",
+                "properties": {
+                  "msg": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+
+          }
+        }
+      }
+    }
+}
